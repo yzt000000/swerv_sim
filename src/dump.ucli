@@ -1,0 +1,3 @@
+fsdbAutoSwitchDumpfile 25 ../fsdb/tc_print_test.fsdb 0
+fsdbDumpvars 0 "tb_top"
+run

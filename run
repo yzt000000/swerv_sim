@@ -1,0 +1,2 @@
+make run_vcs TS=helloworld FSDB=helloworld |tee tc_helloworld.log 
+
