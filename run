@@ -1,2 +1,2 @@
-make run_vcs TS=helloworld FSDB=helloworld |tee tc_helloworld.log 
+make run_vcs TS=print_test FSDB=tc_print_test |tee tc_print_test.log 
 
