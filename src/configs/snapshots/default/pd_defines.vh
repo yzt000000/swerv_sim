@@ -1,7 +1,7 @@
 // NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE
-// This is an automatically generated file by wjfan on Tue Mar 12 14:48:55 CST 2019
+// This is an automatically generated file by wjfan on Mon Mar 18 19:03:33 CST 2019
 //
-// cmd:    swerv -snapshot=default -ahb 
+// cmd:    swerv -target default -set reset_vec=0x0 -ahb_lite -icache_enable=0 
 //
 
 `include "common_defines.vh"

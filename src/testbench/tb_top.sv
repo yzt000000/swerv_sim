@@ -138,9 +138,10 @@ module tb_top ( input logic core_clk, input logic reset_l);
          cycleCnt <= cycleCnt+1;
    end
 
-   always @(posedge core_clk) begin
+   always @(negedge core_clk) begin
       //if(cycleCnt == 32'h800)
       if(cycleCnt == 32'h1800)
+      //if(rvtop.swerv.dec.decode.dec_i0_pc_d[31:1] == 'h2000)
         $finish;
    end
 
@@ -160,8 +161,9 @@ module tb_top ( input logic core_clk, input logic reset_l);
      core_clk = 0;
 `endif
 
-     reset_vector = 32'h80000000;
-     nmi_vector   = 32'hee000000;
+     reset_vector = 32'h00000000;
+     //nmi_vector   = 32'hee000000;
+     nmi_vector   = 32'h00000000;
      nmi_int   = 0;
 
 `ifndef VERILATOR
@@ -196,9 +198,9 @@ end
    swerv_wrapper rvtop (
             .rst_l              ( reset_l       ),
             .clk                ( core_clk      ),
-            .rst_vec            ( 31'h80000000  ),
+            .rst_vec            ( 31'h00000000  ),
             .nmi_int            ( nmi_int       ),
-            .nmi_vec            ( 31'hee000000  ),
+            .nmi_vec            ( 31'h00000000  ),
 
             .haddr              ( ic_haddr      ),
             .hburst             ( ic_hburst     ),

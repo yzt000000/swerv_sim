@@ -30,6 +30,6 @@ int main(){
     for (i=0;i<n;i++) {
         WRITE_REG(0xd0580000,0x43);
     }
-	//printf("aaaaaaaaaa\n");
+	printf("aaaaaaaaaa\n");
 	return 0;
 }
