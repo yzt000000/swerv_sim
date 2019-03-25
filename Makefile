@@ -17,20 +17,30 @@ tcm_info  := $(bld_dir)/tcm_info
 itcm_info  := $(bld_dir)/itcm_info
 dtcm_info  := $(bld_dir)/dtcm_info
 
+
 ifndef TB
-	TB=sram
+	TB=ahb
 endif
 
+
 # Environment
-export CROSS_PREFIX ?= riscv64-unknown-elf-
+export CROSS_PREFIX ?= riscv32-unknown-elf-
 export RISCV_GCC ?= $(CROSS_PREFIX)gcc
 export RISCV_OBJDUMP ?= $(CROSS_PREFIX)objdump -D
 export RISCV_OBJCOPY ?= $(CROSS_PREFIX)objcopy -O verilog
 export RISCV_READELF ?= $(CROSS_PREFIX)readelf -s
 
 
+ifeq ($(TB),ahb)
 export rtl_files  := swerv_top.files
 export top_module := tb_top
+export snapshot   := default
+else
+export rtl_files  := swerv_axi_top.files
+export top_module := tb_axi_top
+export snapshot   := mybuild
+endif
+
 
 
 

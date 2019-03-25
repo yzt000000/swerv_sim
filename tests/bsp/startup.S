@@ -1,91 +1,139 @@
-# SPDX-License-Identifier: Apache-2.0
-# Copyright 2019 Western Digital Corporation or its affiliates.
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-# http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+//#include "defines.h"
+#define RV_ICCM_SADR 0xee000000
+#define STDOUT 0xd0580000
 
-	
 
-#Simple start up file for the reference design
+# define LREG lw
+# define SREG sw
+# define REGBYTES 4
 
-	.section ".text.init"
-	.global	_start
-	.type _start, @function
+    .globl _start
+    .globl main
+    .globl trap_entry
+    .globl handle_trap
+    .globl sc_exit
+    .weak trap_entry, handle_trap, sc_exit
+
+    .text
+    .org (64*3)
+    .align 8
+machine_trap_entry:
+    j trap_entry
+
+    .align 8
 
 _start:
-	#clear minstret
-    csrw minstret, zero 
-	csrw minstreth, zero
+    # clear bss
+    la      a1, __BSS_START__
+    la      a2, __BSS_END__
+    j       4f
+3:  sw      zero, 0(a1)
+    add     a1, a1, 4
+4:  bne     a1, a2, 3b
+    auipc   gp, %hi(_gp)
+    addi    gp, gp, %lo(_gp)
+    la      sp, __C_STACK_TOP__
 
-	#clear registers
-	li  x1, 0
-	li  x2, 0
-	li  x3, 0
-	li  x4, 0
-	li  x5, 0
-	li  x6, 0
-	li  x7, 0
-	li  x8, 0
-	li  x9, 0
-	li  x10,0
-	li  x11,0
-	li  x12,0
-	li  x13,0
-	li  x14,0
-	li  x15,0
-	li  x16,0
-	li  x17,0
-	li  x18,0
-	li  x19,0
-	li  x20,0
-	li  x21,0
-	li  x22,0
-	li  x23,0
-	li  x24,0
-	li  x25,0
-	li  x26,0
-	li  x27,0
-	li  x28,0
-	li  x29,0
-	li  x30,0
-	li  x31,0
-	
-	#cache configuration
-	li t1, 0x55555555
-	csrw 0x7c0, t1
+    // Clear minstret
+    csrw minstret, zero
+    csrw minstreth, zero
 
-	#setup MEIP and MTIP
-	li t0, (1<<7 | 1<<11)
-	csrw mie, t0
-	li t0, (1<<3)
-	csrw mstatus, t0
+    // Set up MTVEC - not expecting to use it though 
+    li x1, RV_ICCM_SADR
+    csrw mtvec, x1
+ 
+ 
+    // Enable Caches in MRAC
+    li x1, 0x55555555
+    csrw 0x7c0, x1
+    // Timer init
 
-	# initialize global pointer
-	.option push
-	.option norelax
-	la gp, __global_pointer$
-	.option pop
-	la sp, _sp
+    li      a0, 0
+    li      a1, 0
+    jal     main
+    j       sc_exit
 
+trap_entry:
+    addi sp, sp, -272
 
-#	#hart id
-	csrr a0, mhartid
-	li   a1, 1
-1:  bgeu a0, a1, 1b
-    # argc = argv = 0 
-    li a0, 0
-    li a1, 0
-	call main
-	# loop here
-2:  j 2b
+    SREG x1, 1*REGBYTES(sp)
+    SREG x2, 2*REGBYTES(sp)
+    SREG x3, 3*REGBYTES(sp)
+    SREG x4, 4*REGBYTES(sp)
+    SREG x5, 5*REGBYTES(sp)
+    SREG x6, 6*REGBYTES(sp)
+    SREG x7, 7*REGBYTES(sp)
+    SREG x8, 8*REGBYTES(sp)
+    SREG x9, 9*REGBYTES(sp)
+    SREG x10, 10*REGBYTES(sp)
+    SREG x11, 11*REGBYTES(sp)
+    SREG x12, 12*REGBYTES(sp)
+    SREG x13, 13*REGBYTES(sp)
+    SREG x14, 14*REGBYTES(sp)
+    SREG x15, 15*REGBYTES(sp)
+#ifndef __RVE_EXT
+    SREG x16, 16*REGBYTES(sp)
+    SREG x17, 17*REGBYTES(sp)
+    SREG x18, 18*REGBYTES(sp)
+    SREG x19, 19*REGBYTES(sp)
+    SREG x20, 20*REGBYTES(sp)
+    SREG x21, 21*REGBYTES(sp)
+    SREG x22, 22*REGBYTES(sp)
+    SREG x23, 23*REGBYTES(sp)
+    SREG x24, 24*REGBYTES(sp)
+    SREG x25, 25*REGBYTES(sp)
+    SREG x26, 26*REGBYTES(sp)
+    SREG x27, 27*REGBYTES(sp)
+    SREG x28, 28*REGBYTES(sp)
+    SREG x29, 29*REGBYTES(sp)
+    SREG x30, 30*REGBYTES(sp)
+    SREG x31, 31*REGBYTES(sp)
+#endif // __RVE_EXT
 
+    csrr a0, mcause
+    csrr a1, mepc
+    mv a2, sp
+    jal handle_trap
 
+    LREG x1, 1*REGBYTES(sp)
+    LREG x2, 2*REGBYTES(sp)
+    LREG x3, 3*REGBYTES(sp)
+    LREG x4, 4*REGBYTES(sp)
+    LREG x5, 5*REGBYTES(sp)
+    LREG x6, 6*REGBYTES(sp)
+    LREG x7, 7*REGBYTES(sp)
+    LREG x8, 8*REGBYTES(sp)
+    LREG x9, 9*REGBYTES(sp)
+    LREG x10, 10*REGBYTES(sp)
+    LREG x11, 11*REGBYTES(sp)
+    LREG x12, 12*REGBYTES(sp)
+    LREG x13, 13*REGBYTES(sp)
+    LREG x14, 14*REGBYTES(sp)
+    LREG x15, 15*REGBYTES(sp)
+#ifndef __RVE_EXT
+    LREG x16, 16*REGBYTES(sp)
+    LREG x17, 17*REGBYTES(sp)
+    LREG x18, 18*REGBYTES(sp)
+    LREG x19, 19*REGBYTES(sp)
+    LREG x20, 20*REGBYTES(sp)
+    LREG x21, 21*REGBYTES(sp)
+    LREG x22, 22*REGBYTES(sp)
+    LREG x23, 23*REGBYTES(sp)
+    LREG x24, 24*REGBYTES(sp)
+    LREG x25, 25*REGBYTES(sp)
+    LREG x26, 26*REGBYTES(sp)
+    LREG x27, 27*REGBYTES(sp)
+    LREG x28, 28*REGBYTES(sp)
+    LREG x29, 29*REGBYTES(sp)
+    LREG x30, 30*REGBYTES(sp)
+    LREG x31, 31*REGBYTES(sp)
+#endif // __RVE_EXT
+
+    addi sp, sp, 272
+    mret
+
+handle_trap:
+sc_exit:
+    j SIM_EXIT
+
+// end of crt.S

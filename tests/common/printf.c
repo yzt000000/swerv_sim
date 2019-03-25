@@ -31,7 +31,8 @@
 #define UART_TX_DATA	(*((volatile unsigned int*)(UART_BASE_ADDRESS + 0x4)))
 #define UART_STAT		(*((volatile unsigned int*)(UART_BASE_ADDRESS + 0x8)))
 #define UART_CTRL 		(*((volatile unsigned int*)(UART_BASE_ADDRESS + 0xC)))
-#define SC_SIM_OUTPORT  (*((volatile unsigned int*)(0xd0580000)))
+//#define SC_SIM_OUTPORT  (*((volatile unsigned int*)(0xd0580000)))
+#define SC_SIM_OUTPORT  (*((volatile unsigned int*)(0x3000)))
 
 #define UART_TX_BUSY	(1<<3)
 #define UART_RX_AVAIL	(1<<0)
@@ -61,7 +62,7 @@ int uart_putchar(char ch)
         uart_putchar('\r');
 
 	//check status
-    while (UART_STAT & UART_TX_BUSY);
+   // while (UART_STAT & UART_TX_BUSY);
 	//write char
     //UART_TX_DATA = ch;
     SC_SIM_OUTPORT = ch;

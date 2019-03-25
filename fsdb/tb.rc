@@ -2,11 +2,11 @@ Magic 271485
 Revision Verdi3_L-2016.06-SP2
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 28 1671 696 280 65
+viewPort 0 28 1323 571 280 208
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
-openDirFile -d / "" "/home/wjfan/swerv_sim/fsdb/tc_helloworld_000.fsdb"
+openDirFile -d / "" "/home/wjfan/githome/swerv_sim/fsdb/tc_sc_print_test_000.fsdb"
 
 ; file time scale:
 ; fileTimeScale ### s|ms|us|ns|ps
@@ -16,16 +16,22 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 1492360.115002 1861618.175362
-cursor 1566000.000000
-marker 0.000000
+zoom 4872839.383915 5061875.456573
+cursor 4946000.000000
+marker 4966000.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
 top 0
 ; marker line index
-markerPos 18
+markerPos 21
+
+; logical expression list
+; addExprSig expr_name expression_string
+activeDirFile "" "/home/wjfan/githome/swerv_sim/fsdb/tc_sc_print_test_000.fsdb"
+
+addExprSig -b 1 -n U logical_expression_1 "/tb_top/i_ahb_lsu/HADDR[31:0]" === 'hD0580000
 
 ; event list
 ; addEvent event_name event_expression
@@ -45,27 +51,30 @@ COMPLEX_EVENT_END
 curSTATUS ByChange
 
 
-addGroup "i_ahb_ic"
-activeDirFile "" "/home/wjfan/swerv_sim/fsdb/tc_helloworld_000.fsdb"
-addSignal -h 15 /tb_top/i_ahb_ic/HCLK
-addSignal -h 15 -holdScope HSEL
-addSignal -h 15 -UNSIGNED -HEX -holdScope HWDATA[63:0]
-addSignal -h 15 -holdScope HWRITE
-addSignal -h 15 -UNSIGNED -HEX -holdScope HADDR[31:0]
-addSignal -h 15 -UNSIGNED -HEX -holdScope HRDATA[63:0]
-addSignal -h 15 -holdScope HREADYOUT
-addSignal -h 15 -holdScope HRESP
-addSignal -h 15 -holdScope HREADY
 addGroup "i_ahb_lsu"
-addSignal -h 15 -UNSIGNED -HEX /tb_top/i_ahb_lsu/HWDATA[63:0]
+activeDirFile "" "/home/wjfan/githome/swerv_sim/fsdb/tc_sc_print_test_000.fsdb"
+addSignal -h 15 /logical_expression_1
+addSignal -h 15 -UNSIGNED -HEX /tb_top/i_ahb_lsu/HADDR[31:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope HRDATA[63:0]
+addSignal -h 15 -holdScope HWRITE
+addSignal -h 15 -UNSIGNED -HEX -holdScope HWDATA[63:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope HTRANS[1:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope HSIZE[2:0]
+addSignal -h 15 -holdScope HREADY
 addSignal -h 15 -holdScope HCLK
 addSignal -h 15 -holdScope HSEL
-addSignal -h 15 -holdScope HWRITE
-addSignal -h 15 -holdScope HREADY
-addSignal -h 15 -UNSIGNED -HEX -holdScope HADDR[31:0]
 addSignal -h 15 -holdScope HREADYOUT
-addSignal -h 15 -UNSIGNED -HEX -holdScope HRDATA[63:0]
 addGroup "G3"
+addSignal -h 15 -UNSIGNED -HEX /tb_top/pc0[31:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope pc1[31:0]
+addGroup "G4"
+addSignal -h 15 /tb_top/i_ahb_lsu/HWRITE
+addSignal -h 15 -UNSIGNED -HEX -holdScope HWDATA[63:0]
+addGroup "G5"
+addSignal -h 15 -UNSIGNED -HEX /tb_top/i_ahb_lsu/Last_HADDR[14:3]
+addSignal -h 15 -holdScope Write
+addSignal -h 15 -UNSIGNED -HEX -holdScope Last_HADDR[31:0]
+addGroup "G6"
 
 ; getSignalForm Scope Hierarchy Status
 ; active file of getSignalForm

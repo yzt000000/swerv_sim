@@ -21,7 +21,7 @@ incs += -I$(src_dir) -I$(bsp_dir) -I$(common_dir)
 baseaddr := 0
 
 
-c_src := sc_printf.c print_test.c
+c_src := printf.c print_test.c
 asm_src := startup.S
 ld_script := $(bsp_dir)/link.ld
 

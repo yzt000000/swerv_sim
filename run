@@ -1,2 +1,3 @@
-make run_vcs TS=print_test FSDB=tc_print_test |tee tc_print_test.log 
+make clean_all
+make run_vcs TS=sc_print_test TB=ahb FSDB=tc_sc_print_test | tee tc_sc_print_test.log
 

@@ -14,9 +14,9 @@ $(error env var RV_ROOT does not point to a valid dir! Exiting!)
 endif
 
 # Allow snapshot override
-ifeq ($(strip $(snapshot)),)
-	snapshot = default
-endif
+#ifeq ($(strip $(snapshot)),)
+#	snapshot = default
+#endif
 
 defines = ${RV_ROOT}/configs/snapshots/$(snapshot)/common_defines.vh ${RV_ROOT}/design/include/def.sv
 includes = -I${RV_ROOT}/design/include -I${RV_ROOT}/design/lib -I${RV_ROOT}/design/dmi -I${RV_ROOT}/configs/snapshots/$(snapshot)
@@ -30,9 +30,9 @@ CFLAGS += "-std=c++11"
 
 default: build_vcs
 
-export snapshot=default
 
 build_vcs: $(rtl_list) ${RV_ROOT}/configs/snapshots/$(snapshot)/common_defines.vh
+	@echo $(snapshot)
 	cd $(bld_dir); \
 	vcs \
 	-full64 \
@@ -58,9 +58,7 @@ build_vcs: $(rtl_list) ${RV_ROOT}/configs/snapshots/$(snapshot)/common_defines.v
 	${RV_ROOT}/configs/snapshots/$(snapshot)/common_defines.vh \
 	${RV_ROOT}/design/include/def.sv \
 	$(rtl_list) \
-	${RV_ROOT}/testbench/tb_top.sv \
 	-I${RV_ROOT}/testbench \
-	${RV_ROOT}/testbench/ahb_sif.sv \
 	-l vcs.log
 
 
@@ -80,9 +78,7 @@ run_verdi: $(rtl_list) ${RV_ROOT}/configs/snapshots/$(snapshot)/common_defines.v
 	${RV_ROOT}/configs/snapshots/$(snapshot)/common_defines.vh \
 	${RV_ROOT}/design/include/def.sv \
 	$(rtl_list) \
-	${RV_ROOT}/testbench/tb_top.sv \
 	-I${RV_ROOT}/testbench \
-	${RV_ROOT}/testbench/ahb_sif.sv \
 	-top $(top_module) \ 
 	-l verdi.log
 

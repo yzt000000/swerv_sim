@@ -33,7 +33,8 @@ module ahb_sif (
 
 );
 
-localparam MEM_SIZE_DW = 4096;
+//localparam MEM_SIZE_DW = 4096;
+localparam MEM_SIZE_DW = 32768;
 localparam MAILBOX_ADDR = 32'hD0580000;
 
 logic Last_HSEL;

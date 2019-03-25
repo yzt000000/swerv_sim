@@ -14,7 +14,7 @@
 // limitations under the License.
 
 
-#include "sc_printf.h"
+#include "printf.h"
 
 #define BASH_ADRS (0x00001000)
 #define W_ADRS *(volatile unsigned int *) (BASH_ADRS + 0)
@@ -22,7 +22,7 @@
 #define WRITE_REG(addr,ch)  *(volatile unsigned int *) (addr) = ch
 #define READ_REG(addr,ch)  ch = *(volatile unsigned int *) (addr) 
 
-#define SC_SIM_OUTPORT (0xd0580000)
+#define SC_SIM_OUTPORT (0x3000)
 #define CHAR_BIT (8)
 
 
@@ -30,7 +30,7 @@ void main(){
     int n;
     int i;
     int j;
-    n=10;
+    n=100;
    //for(i=0;i<n;i++) {
    //    for(j=0;i<100;j++){
    //        WRITE_REG(SC_SIM_OUTPORT,0x21+i);
@@ -65,7 +65,13 @@ void main(){
   WRITE_REG(SC_SIM_OUTPORT,0x33);
   WRITE_REG(SC_SIM_OUTPORT,0x0a);
 
-  sc_printf("hello world!\n");
+  printf("hello world!\n");
+
+  for(i=0;i<n;i++) {
+  //    WRITE_REG(SC_SIM_OUTPORT,0x31);
+    printf("hello world: %d!\n",i);
+  }
+
 
 
 }

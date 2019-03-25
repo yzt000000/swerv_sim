@@ -24,74 +24,101 @@ ENTRY(_start)
 
 MEMORY
 {
-	RAM  (wxa!ri) : ORIGIN = 0x00000000, LENGTH = 64K
+	/*RAM  (wxa!ri) : ORIGIN = 0x00000000, LENGTH = 32K */
+	RAM  (rwx) : ORIGIN = 0x00000000, LENGTH = 16K
 }
 
 /*----------------------------------------------------------------------*/
 /* Sections                                                             */
 /*----------------------------------------------------------------------*/
 
-SECTIONS
-{
-  __stack_size = DEFINED(__stack_size) ? __stack_size : 4K;
 
-  .text.init	:
-  {
-	*(.text.init)
-	. = ALIGN(8);
-  } > RAM
+STACK_SIZE = 2048;
 
-  .text :
-  {
-    *(.text.unlikely .text.unlikely.*)
-    *(.text.startup .text.startup.*)
+CL_SIZE = 32;
+
+SECTIONS {
+
+  /* code segment */
+  .text.init 0 : { 
+    FILL(0);
+    . = 0x100 - 12;
+    SIM_EXIT = .;
+    LONG(0x13);
+    SIM_STOP = .;
+    LONG(0x6F);
+    LONG(-1);
+    . = 0x100;
+    PROVIDE(__TEXT_START__ = .);
+    *(.text.init) 
+  } >RAM
+
+  .text  : {
+    *startup.o(.text .text.*)
     *(.text .text.*)
-    *(.gnu.linkonce.t.*)
-	. = ALIGN(8);
-  } > RAM
+    *(sc_test_section)
+    . = ALIGN(CL_SIZE);
+     PROVIDE(__TEXT_END__ = .);
+  } >RAM 
 
-  .rodata	:
-  {
-    *(.rdata)
-    *(.rodata .rodata.*)
-    *(.gnu.linkonce.r.*)
-	. = ALIGN(8);
-  } > RAM
+  /* data segment */
+  .data : {
+    *(.data .data.*)
+    . = ALIGN(CL_SIZE);
+  } >RAM
 
-  .data	:
-  {
-	*(.data .data.*)
-    *(.gnu.linkonce.d.*)
-	. = ALIGN(8);
-  } > RAM
-  .sdata	:
-  {
-	. = ALIGN(8);
-    __global_pointer$ = . + 0x800;
-    *(.sdata .sdata.*)
-    *(.gnu.linkonce.s.*)
-    . = ALIGN(8);
-    *(.srodata .srodata.*)
-	. = ALIGN(8);
-  } > RAM
+  .sdata : {
+    _gp = . + 0x800;
+    *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata*)
+    *(.sdata .sdata.* .gnu.linkonce.s.*)
+    . = ALIGN(CL_SIZE);
+  } >RAM
 
+  /* thread-local data segment */
+  .tdata : {
+    PROVIDE(_tls_data = .);
+    PROVIDE(_tdata_begin = .);
+    *(.tdata .tdata.*)
+    PROVIDE(_tdata_end = .);
+    . = ALIGN(CL_SIZE);
+  } >RAM
+
+  .tbss : {
+    PROVIDE(__BSS_START__ = .);
+    *(.tbss .tbss.*)
+    . = ALIGN(CL_SIZE);
+    PROVIDE(_tbss_end = .);
+  } >RAM
+
+  /* bss segment */
   .sbss : {
     *(.sbss .sbss.* .gnu.linkonce.sb.*)
     *(.scommon)
-	. = ALIGN(8);
-  } > RAM
-  .bss :
-  {
-	*(.bss)
-	. = ALIGN(8);
-  } > RAM
+  } >RAM
+
+  .bss : {
+    *(.bss .bss.*)
+    . = ALIGN(CL_SIZE);
+    PROVIDE(__BSS_END__ = .);
+  } >RAM
 
   _end = .;
+  PROVIDE(__end = .);
 
-  .stack :
-  {
-	_heap_end = .;
-	. = . + __stack_size;
-	_sp = .;
-  } > RAM
+  /* End of uninitalized data segement */
+
+  .stack ORIGIN(RAM) + LENGTH(RAM) - STACK_SIZE : {
+    FILL(0);
+    PROVIDE(__STACK_START__ = .);
+    . += STACK_SIZE;
+    PROVIDE(__C_STACK_TOP__ = .);
+    PROVIDE(__STACK_END__ = .);
+  } >RAM
+
+  /DISCARD/ : {
+    *(.eh_frame .eh_frame.*)
+  }
 }
+
+
+

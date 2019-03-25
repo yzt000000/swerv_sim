@@ -6,7 +6,7 @@
 #include <stdarg.h>
 #include "sc_print.h"
 
-#define SC_SIM_OUTPORT (0xf0000000)
+#define SC_SIM_OUTPORT (0xd0580000)
 #define CHAR_BIT (8)
 
 static void
