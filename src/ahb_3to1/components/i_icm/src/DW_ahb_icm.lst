@@ -1,0 +1,24 @@
+// component: /i_icm
+// library: work
+// files:
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_bcm_params.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_amba_constants.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_cc_constants.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_bcm02.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_bcm01.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_bcm52.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_hld.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_cdissm.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_cdiss.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_lts.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_pm.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_cwsm.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_cws.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_ism.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_is.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_csg.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_gh.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm_low.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm.v
+/home/wjfan/amba/ahb_3to1/components/i_icm/src/DW_ahb_icm-undef.v
+

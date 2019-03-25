@@ -1,0 +1,4 @@
+error {This workspace is part of a coreAssembler workspace.
+It represents a component in a larger subsystem.  You must
+open the subsystem workspace, not this one.
+}

@@ -1,0 +1,25 @@
+// component: /i_ahb_1
+// library: work
+// files:
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_amba_constants.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_cc_constants.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_constants.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_bcm_params.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_bcm02.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_bcm01.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_bcm53.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_arbif.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_dcdr.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_dfltslv.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_ebt.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_gctrl.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_mask.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_mux.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_cntc.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_gating.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_wtps.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_arb.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb_arblite.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb.v
+/home/wjfan/amba/ahb_3to1/components/i_ahb_1/src/DW_ahb-undef.v
+
